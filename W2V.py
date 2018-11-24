@@ -5,7 +5,7 @@ from sklearn.manifold import TSNE
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 class W2V:
-    def __init__(self, file_path):
+    def __init__(self, file_path, num_iters = 1000):
         text = TextHandler.TextHandler(file_path)
 
         #Make placeholders for x and y
@@ -35,10 +35,9 @@ class W2V:
         #training step
         train_step = tf.train.GradientDescentOptimizer(0.1).minimize(cross_entropy_loss)
 
-        n_iterations = 10000
 
         #train it
-        for _ in range(n_iterations):
+        for _ in range(num_iters):
             sess.run(train_step, feed_dict={x: text.x_train, y: text.y_train})
             print("loss is: ", sess.run(cross_entropy_loss, feed_dict={x: text.x_train, y: text.y_train}))
 
@@ -61,7 +60,7 @@ class W2V:
                 min_index = index
         return self.text.int2word[min_index]
 
-test = W2V("testtext.txt")
+test = W2V("testtext.txt", 50)
 model = TSNE(n_components=2, random_state=0)
 np.set_printoptions(suppress=True)
 vectors = model.fit_transform(test.vectors)
