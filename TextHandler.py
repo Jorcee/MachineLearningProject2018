@@ -11,7 +11,7 @@ class TextHandler:
         #Create a list of all the words in the text
         with open(self.file_path) as f:
             for word in tf.compat.as_str(f.read()).split():
-                if word != '.':
+                if word != '.' and word != ',':
                     self.text.append(word.lower())    
         self.make_sentence_list(file_path)
         self.make_vocab(self.text)
