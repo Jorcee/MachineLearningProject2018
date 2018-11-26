@@ -1,0 +1,5 @@
+*.json
+*.DS_Store
+*.pdf
+*.caj
+/__pycache__/*

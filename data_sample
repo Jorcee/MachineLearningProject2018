@@ -1,0 +1,13 @@
+# {'authors': [{'name': 'Li Ma', 'org': 'Changchun Institute of Applied Chemistry, Chinese Academy of Sciences'},
+#  {'name': 'Markus Kohlmann', 'org': 'RandD DSAR/Drug Disposition FF, Sanofi-Aventis Deutschland GmbH'}, 
+#  {'name': 'Michael Wochner', 'org': 'Department of Chemistry and Biology, Analytical Chemistry, University of Konstanz'}, 
+#  {'name': 'Ulrich Krawinkel', 'org': 'Department of Chemistry and Biology, Analytical Chemistry, University of Konstanz'}, 
+#  {'name': 'Michael Przybylski', 'org': 'Department ofChemistry and Biology, Analytical Chemistry, University of Konstanz'}, 
+#  {'name': 'Shuying Liu', 'org': 'Jilin Ginseng Academy, Changchun University of Chinese Medicine'}], 
+ 
+#  'title': 'Mass spectrometric analysis of noncovalent complexes between synthetic peptides from human ribosomal proteinL7 and Protein G', 
+#  'abstract': 'In order to gain a comprehensive insight into the complexes of human ribosomal protein L7 with protein G in a certain degree, an investigation on the complexes of five synthetic L7 peptides, containing the basic-region-leucine-zipper (BZIP)-like domain (aa 15-49), with protein G was performed using nanoelectrospray ionization mass spectrometry (nanoESI-MS). Circular dichroism (CD) was used to characterize the secondary structures of L7 peptides. The characteristics of the complexes between L7 peptides and protein G were studied under variousconditions, such as molar ratio of ligands, solvent condition, declustering potential, and peptide sequence. The stability of the complexes is found to decrease with increased declustering potential (>20 V), decreased pH (<5), increased pH (>5), while L7 peptide sequence had no obvious effect on the complex formation. Taken together, the complexes of L7 peptides with protein G are specific noncovalent binding with 1:1 stoichiometry. Because of the availability of synthetic L7 peptides, they might be used as baits to discover the binding partners of protein L7. Furthermore,the elaboration of the binding mechanisms of L7 peptides with protein G could benefit further application of protein G.', 
+#  'keywords': ['electronspray ionization', 'L7peptide', 'massspectrometry', 'noncovalentcomplex', 'proteinG', 'stability'], 
+#  'venue': 'Journal of Liquid Chromatography and Related Technologies',
+# 'year': 2015, 
+# 'id': '5bc6bfdd486cef66309e4416'}
