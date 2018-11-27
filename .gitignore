@@ -3,3 +3,5 @@
 *.pdf
 *.caj
 /__pycache__/*
+*.bdc-downloading
+test.py
