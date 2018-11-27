@@ -1,17 +1,17 @@
 import numpy
 import random
-from similarity import *
+import json
 from bintree import *
-# More work needed
 
-def HierarchicalClustering(data):
-    n=len(data)
-    correlation=numpy.zeros(shape=(n,n))
-    # correlation matrix is a symmetric matrix
-    for i in range(n):
-        for j in range(i):
-            correlation[i][j]=simularity(data[i],data[j])
-    correlation=correlation+correlation.T
+def HierarchicalClustering(similarity,data):
+    # n=len(data)
+    # correlation=numpy.zeros(shape=(n,n))
+    # # correlation matrix is a symmetric matrix
+    # for i in range(n):
+    #     for j in range(i):
+    #         correlation[i][j]=similarity.predict(data[i],data[j])
+    # correlation=correlation+correlation.T
+    correlation = similarity.matrix(data)
 
     # #bruce-force
     # #total predicted pairs
