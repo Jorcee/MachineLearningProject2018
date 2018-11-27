@@ -1,7 +1,7 @@
-context_tags = ["institute", "academy", "university"]
+context_tags = ["institute", "academy", "university","univ"]
 context_locs = [-1,-1,2]
 subjects = ["chemistry", "biology", "physics", "math", "mathematics", "science"]
-def preprocess(sentence):
+def org_preprocess(sentence):
     tags = []
     sentence_parts = sentence.lower().split()
     for i in range(0, len(sentence_parts)):
@@ -14,13 +14,13 @@ def preprocess(sentence):
     return tags
 
 
-def venue_A(venue_name):
+def venue_preprocess(venue_name):
     acronym = ""
-    venue_parts = venue_name.split()
-    for word in venue_parts:
+    for word in venue_name.split():
+        
         if word[0].isupper():
             acronym = acronym + word[0]
     return acronym
-print(preprocess("Beijing Academy of Math and Science"))
+print(org_preprocess("Beijing Academy of Math and Science"))
 print(preprocess("Department of Physics University of Georigie"))
 print(venue_A("Journal of Liquid Chromotaogyaphy and Related Technollgies"))
