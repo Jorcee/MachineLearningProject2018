@@ -15,6 +15,6 @@ class clf_year:
         year1 = int(paper1['year'])
         year2 = int(paper2['year'])
         diff = abs(year1 - year2)
-        diff = float(diff) * 0.05
-        return 1 - diff
+        diff = 2.718**(-diff*diff/100)
+        return diff
         

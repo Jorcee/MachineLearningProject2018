@@ -53,7 +53,7 @@ class bayes_tran:
                     #the result is invalueble, 2 is a label for smoothing
                     prob_bayes_new.append(2)
                 else:
-                    #prob_bayes_new.append(self.N1*self.f1[i]/(self.N1*self.f1[i]+self.N2*self.f2[i]))
+                    #prob_bayes_new.append(self.f1[i]/(self.f1[i]+self.f2[i]))
                     prob_bayes_new.append(1*self.f1[i]/self.N1/(1*self.f1[i]/self.N1+1*self.f2[i]/self.N2))
 
             prob_bayes_new=self.smoothing(prob_bayes_new)

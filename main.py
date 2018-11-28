@@ -9,7 +9,6 @@ from clf_org import clf_org
 from clf_keywords import clf_keywords
 from clf_abstract import clf_abstract
 from clf_year import clf_year
-from SentenceSimalarity import SenSim
 
 MODE = 'test'
 #MODE = 'run'
@@ -21,8 +20,9 @@ if MODE == 'run':
         label = json.load(f)
 
     for data_item in data.values():
-        if 'abstract' not in data_item:
-            data_item['abstract']=''
+        for data_single in data_item:
+            if 'abstract' not in data_single:
+                data_single['abstract']=''
 
     # add label for calculate a=b fastly in training step
     for name,label_item in label.items():
@@ -64,11 +64,14 @@ else:
 
 # similarity_total=similarity(clf1_new,clf2_new,clf3_new)
 
-clf=SenSim()
+clf=clf_year()
 clf_new= bayes_tran(clf, data,label)
-similarity_total=similarity(clf1_new)
+
+similarity_total=similarity(clf_new)
 
 for name in label:
     data[name],label[name]
     a = score(HierarchicalClustering(similarity_total,data[name]),label[name],'F1')
     print(a)
+
+clf_new.plot()
