@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.manifold import TSNE
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
+import collections
 class W2V:
     def __init__(self, file_path, num_iters = 1000):
         text = TextHandler.TextHandler(file_path)
@@ -59,6 +60,25 @@ class W2V:
                 min_dist = self.e_dist(vector, query_vector)
                 min_index = index
         return self.text.int2word[min_index]
+    
+    def build_dataset(self, words, n_words):
+        count = [['UNK', -1]]
+        count.extend(collections.Counter(words).most_common(n_words - 1))
+        dictionary = dict()
+        for word, _ in count:
+            dictionary[word] = len(dictionary)
+        data = list()
+        unk_count = 0
+        for word in words:
+            if word in dictionary:
+                index = dictionary[word]
+            else:
+                index = 0  # dictionary['UNK']
+                unk_count += 1
+            data.append(index)
+        count[0][1] = unk_count
+        reversed_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
+        return data, count, dictionary, reversed_dictionary
 
 test = W2V("testtext.txt", 50)
 model = TSNE(n_components=2, random_state=0)

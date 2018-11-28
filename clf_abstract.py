@@ -1,4 +1,5 @@
 import random
+import SentenceSimalarity
 class clf_abstract:
     
     def __init__(self):
