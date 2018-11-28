@@ -2,7 +2,7 @@ import random
 from gensim.utils import simple_preprocess
 from gensim.models.keyedvectors import Doc2VecKeyedVectors
 class clf_abstract: 
-    def __init__(self, file_name):
+    def __init__(self):
         self.doc_vector = Doc2VecKeyedVectors.load('doc2vec.kv')
 
     def train(self,data,label):

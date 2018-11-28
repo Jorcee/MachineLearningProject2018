@@ -18,7 +18,10 @@ class clf_keywords:
         for word1 in keys1:
             temp = []
             for word2 in keys2:
-                temp.append(self.kv.similarity(word1,word2))
+                try:
+                    temp.append(self.kv.similarity(word1,word2))
+                except Exception:
+                    temp.append(0)
             temp = np.array(temp)
             temp = np.mean(temp)
             sim_values.append(temp)
