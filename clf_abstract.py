@@ -13,6 +13,10 @@ class clf_abstract:
     def predict(self,paper1, paper2):
         ab1 = simple_preprocess(paper1['abstract'])
         ab2 = simple_preprocess(paper1['abstract'])
-        return self.doc_vector.n_similarity(ab1, ab2)
+        try:
+            sim = self.doc_vector.n_similarity(ab1,ab2)
+        except Exception:
+            return 0
+        return sim
 
 

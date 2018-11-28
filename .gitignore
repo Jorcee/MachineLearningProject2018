@@ -5,3 +5,4 @@
 /__pycache__/*
 *.bdc-downloading
 test.py
+tester.py
