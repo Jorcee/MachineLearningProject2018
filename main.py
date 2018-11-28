@@ -64,7 +64,7 @@ else:
 
 # similarity_total=similarity(clf1_new,clf2_new,clf3_new)
 
-clf=clf_year()
+clf=clf_abstract()
 clf_new= bayes_tran(clf, data,label)
 
 similarity_total=similarity(clf_new)

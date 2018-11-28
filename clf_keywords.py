@@ -28,3 +28,12 @@ class clf_keywords:
         sim_values = np.array(sim_values)
         return np.mean(sim_values)
 
+    def matrix(self,data):
+        n=len(data)
+        correlation=np.zeros(shape=(n,n))
+        # correlation matrix is a symmetric matrix
+        for i in range(n):
+            for j in range(i):
+                correlation[i][j]=self.predict(data[i],data[j])
+        correlation=correlation+correlation.T
+        return correlation

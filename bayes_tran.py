@@ -12,13 +12,13 @@ class bayes_tran:
         for name_,label_ in label.items():
             data_=data[name_]
             len_=len(data_)
-            correlation=numpy.zeros(shape=(len_,len_))
-            for i in range(len_):
-                print(i)
-                for j in range(i):
-                    correlation[i][j]=clf.predict(data_[i],data_[j])
-                correlation[i][i]=0.5
-            correlation=correlation+correlation.T
+            # correlation=numpy.zeros(shape=(len_,len_))
+            # for i in range(len_):
+            #     for j in range(i):
+            #         correlation[i][j]=clf.predict(data_[i],data_[j])
+            #     correlation[i][i]=0.5
+            # correlation=correlation+correlation.T
+            correlation = clf.matrix(data_)
             #the propability-desity function of the out put of clf when real-correlation is 1
             # print(correlation)
             # the start and end of indexs of each clusters
@@ -69,6 +69,8 @@ class bayes_tran:
 
     def predict(self,paper1,paper2):
         return self.out2prob(self.clf.predict(paper1,paper2))
+    def matrix(self,data):
+        return self.clf.matrix(data)
 
     def smoothing(self,prob):
         len_=len(prob)

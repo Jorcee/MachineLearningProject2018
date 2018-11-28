@@ -1,3 +1,4 @@
+import numpy
 class clf_org:
     def org_preprocess(self, sentence):
         tags = []
@@ -28,3 +29,13 @@ class clf_org:
             return 1
         else:
             return 0
+
+    def matrix(self,data):
+        n=len(data)
+        correlation=numpy.zeros(shape=(n,n))
+        # correlation matrix is a symmetric matrix
+        for i in range(n):
+            for j in range(i):
+                correlation[i][j]=self.predict(data[i],data[j])
+        correlation=correlation+correlation.T
+        return correlation
