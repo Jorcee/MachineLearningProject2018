@@ -15,7 +15,7 @@ class clf_abstract:
         print('clf_abstract train end')
     #expects paper1 and paper2 to be vectors fro the abstracts of those papers
     def predict(self,paper1, paper2):
-        return spatial.distance.cosine(paper1, paper2)
+        return 1 - spatial.distance.cosine(paper1, paper2)
 
         #The old, crappy way
         # ab1 = simple_preprocess(paper1['abstract'])
