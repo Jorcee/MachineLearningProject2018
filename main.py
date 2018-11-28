@@ -9,15 +9,20 @@ from clf_org import clf_org
 from clf_keywords import clf_keywords
 from clf_abstract import clf_abstract
 from clf_year import clf_year
+from SentenceSimalarity import SenSim
 
-#MODE = 'test'
-MODE = 'run'
+MODE = 'test'
+#MODE = 'run'
 if MODE == 'run':
     with open('pubs_train.json', 'r') as f:
         data = json.load(f)
 
     with open('assignment_train.json') as f:
         label = json.load(f)
+
+    for data_item in data.values():
+        if 'abstract' not in data_item:
+            data_item['abstract']=''
 
     # add label for calculate a=b fastly in training step
     for name,label_item in label.items():
@@ -31,6 +36,9 @@ else:
         data_lima=json.load(f)
     with open('lima.lab','r') as g:
         label_lima=json.load(g)
+    for data_item in data_lima:
+        if 'abstract' not in data_item:
+            data_item['abstract']=''
 
     index=0
     for i in range(len(label_lima)):
@@ -42,19 +50,23 @@ else:
     label={'li_ma':label_lima}
 
 
-clf1=clf_venue()
-clf1.train(data,label)
-clf1_new= bayes_tran(clf1,data,label)
+# clf1=clf_venue()
+# clf1.train(data,label)
+# clf1_new= bayes_tran(clf1,data,label)
 
-clf2=clf_org()
-clf2.train(data,label)
-clf2_new= bayes_tran(clf2,data,label)
+# clf2=clf_org()
+# clf2.train(data,label)
+# clf2_new= bayes_tran(clf2,data,label)
 
-clf3=clf_keywords()
-clf3.train(data,label)
-clf3_new= bayes_tran(clf3,data,label)
+# clf3=clf_keywords()
+# clf3.train(data,label)
+# clf3_new= bayes_tran(clf3,data,label)
 
-similarity_total=similarity(clf1_new,clf2_new,clf3_new)
+# similarity_total=similarity(clf1_new,clf2_new,clf3_new)
+
+clf=SenSim()
+clf_new= bayes_tran(clf, data,label)
+similarity_total=similarity(clf1_new)
 
 for name in label:
     data[name],label[name]
