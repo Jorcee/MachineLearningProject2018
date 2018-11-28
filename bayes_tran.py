@@ -14,6 +14,7 @@ class bayes_tran:
             len_=len(data_)
             correlation=numpy.zeros(shape=(len_,len_))
             for i in range(len_):
+                print(i)
                 for j in range(i):
                     correlation[i][j]=clf.predict(data_[i],data_[j])
                 correlation[i][i]=0.5
