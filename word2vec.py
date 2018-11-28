@@ -1,10 +1,10 @@
-import gensim
-import logging
-import TextHandler
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
- 
-text = TextHandler.TextHandler('testtext.txt')
-sentences = text.sentences
-# train word2vec on the two sentences
-model = gensim.models.Word2Vec(sentences, min_count=1)
-print(model.wv['the'])
+from gensim.test.utils import common_texts, get_tmpfile
+from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
+import PaperJSONHandler
+text = PaperJSONHandler.PaperJSON('pubs_train.json')
+abstracts = text.get_abstracts()
+path = get_tmpfile('word2vec.model')
+model = Word2Vec(abstracts, size=100, window=5, min_count=1, workers=4)
+model.save('word2vec.model')
+model.wv.save('wordvectors.kv')
