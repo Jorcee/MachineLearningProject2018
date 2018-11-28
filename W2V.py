@@ -5,6 +5,8 @@ from sklearn.manifold import TSNE
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import collections
+
+#Deprecated
 class W2V:
     def __init__(self, file_path, num_iters = 1000):
         text = TextHandler.TextHandler(file_path)

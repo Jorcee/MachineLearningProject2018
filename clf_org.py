@@ -1,21 +1,20 @@
 class clf_org:
-    context_tags = ["institute", "academy", "university","univ"]
-    context_locs = [-1,-1,2]
-    subjects = ["chemistry", "biology", "physics", "math", "mathematics", "science"]
-    def org_preprocess(sentence):
+    def org_preprocess(self, sentence):
         tags = []
         sentence_parts = sentence.lower().split()
         for i in range(0, len(sentence_parts)):
-            for j in range(0, len(subjects)):
-                if sentence_parts[i] == subjects[j]:
-                    tags.append(subjects[j])
-            for j in range(0, len(context_tags)):
-                if sentence_parts[i] == context_tags[j]:
-                    tags.append(sentence_parts[i + context_locs[j]])
+            for j in range(0, len(self.subjects)):
+                if sentence_parts[i] == self.subjects[j]:
+                    tags.append(self.subjects[j])
+            for j in range(0, len(self.context_tags)):
+                if sentence_parts[i] == self.context_tags[j]:
+                    tags.append(sentence_parts[i + self.context_locs[j]])
         return tags
 
     def __init__(self):
-        pass
+        self.context_tags = ["institute", "academy", "university","univ"]
+        self.context_locs = [-1,-1,2]
+        self.subjects = ["chemistry", "biology", "physics", "math", "mathematics", "science"]
 
     def train(self,data,label):
         print('clf_org train start')
