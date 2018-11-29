@@ -101,7 +101,7 @@ class bayes_tran:
 
     def plot(self):
         x=[k/(self.kinds-1) for k in range(self.kinds)]
-        plt.plot(x,self.f1)
+        plt.plot(x,self.prob_bayes)
         plt.show()
     
     def print(self):

@@ -22,5 +22,5 @@ def score(cls_pred, cls_real,mod='F1'):
         return 2*cps/(tps+pps)
     if mod=='precise':
         return cps/pps
-    if mod=='Recall':
+    if mod=='recall':
         return cps/tps
