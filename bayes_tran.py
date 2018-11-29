@@ -1,7 +1,8 @@
 import numpy
+import random
 import matplotlib.pyplot as plt
 class bayes_tran:
-    def __init__(self,clf,data,label):
+    def __init__(self,clf,data,label,max_iter=1):
         self.clf=clf
         self.N1=0
         self.N2=0
@@ -9,8 +10,16 @@ class bayes_tran:
         self.f1=numpy.zeros(self.kinds)
         self.f2=numpy.zeros(self.kinds)
         self.prob_bayes=numpy.zeros(self.kinds)
-        for name_,label_ in label.items():
+        self.max_iter=max_iter
+
+        iter=0
+        names=list(label)
+        random.shuffle(names)
+        print(list(label))
+        print(names)
+        for name_ in names:
             data_=data[name_]
+            label_=label[name_]
             len_=len(data_)
             # correlation=numpy.zeros(shape=(len_,len_))
             # for i in range(len_):
@@ -58,8 +67,8 @@ class bayes_tran:
 
             prob_bayes_new=self.smoothing(prob_bayes_new)
 
-        
-            if max([abs(prob_bayes_new[i]-self.prob_bayes[i]) for i in range(self.kinds)]) < 0.001:
+            iter+=1 
+            if ((max([abs(prob_bayes_new[i]-self.prob_bayes[i]) for i in range(self.kinds)]) < 0.001 ) or (iter==max_iter)):
                 self.prob_bayes = prob_bayes_new[:]
                 return
             self.prob_bayes = prob_bayes_new[:]
@@ -85,19 +94,20 @@ class bayes_tran:
                 for k in range(i,j):
                     prob[k]=0
                     if (i>0):
-                        prob[k]+=prob[i-1]*(0.5**(k-i+1))
+                        prob[k]+=prob[i-1]* (j-k)/(j-i+1)
                     if (j<len_):
-                        prob[k] += prob[j]*(0.5**(j-k))
+                        prob[k] += prob[j]* (k-i+1)/(j-i+1)
         return prob
 
     def plot(self):
         x=[k/(self.kinds-1) for k in range(self.kinds)]
-        plt.plot(x,self.prob_bayes)
+        plt.plot(x,self.f1)
         plt.show()
     
     def print(self):
         print('N1',self.N1)
         print('N2',self.N2)
+        print('prob',self.prob_bayes)
         print('f1',self.f1)
         print('f2',self.f2)
 

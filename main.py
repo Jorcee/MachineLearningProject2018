@@ -10,8 +10,8 @@ from clf_keywords import clf_keywords
 from clf_abstract import clf_abstract
 from clf_year import clf_year
 
-MODE = 'test'
-#MODE = 'run'
+#MODE = 'test'
+MODE = 'run'
 if MODE == 'run':
     with open('pubs_train.json', 'r') as f:
         data = json.load(f)
@@ -50,13 +50,13 @@ else:
     label={'li_ma':label_lima}
 
 
-# clf1=clf_venue()
-# clf1.train(data,label)
-# clf1_new= bayes_tran(clf1,data,label)
+clf1=clf_venue()
+clf1.train(data,label)
+clf1_new= bayes_tran(clf1,data,label)
 
-# clf2=clf_org()
-# clf2.train(data,label)
-# clf2_new= bayes_tran(clf2,data,label)
+clf2=clf_org()
+clf2.train(data,label)
+clf2_new= bayes_tran(clf2,data,label)
 
 # clf3=clf_keywords()
 # clf3.train(data,label)
@@ -64,14 +64,21 @@ else:
 
 # similarity_total=similarity(clf1_new,clf2_new,clf3_new)
 
-clf=clf_abstract()
-clf_new= bayes_tran(clf, data,label)
+clf3=clf_year()
+clf3.train(data,label)
+clf3_new= bayes_tran(clf3,data,label)
 
-similarity_total=similarity(clf_new)
+
+clf4=clf_abstract()
+clf4_new= bayes_tran(clf4, data,label)
+
+similarity_total=similarity(clf3_new)
+
+#similarity_total=similarity(clf1_new,clf2_new,clf3_new,clf4_new)
 
 for name in label:
     data[name],label[name]
     a = score(HierarchicalClustering(similarity_total,data[name]),label[name],'F1')
     print(a)
 
-clf_new.plot()
+#clf_new.print()
