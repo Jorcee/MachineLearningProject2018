@@ -14,8 +14,15 @@ class clf_abstract:
         pass
         print('clf_abstract train end')
     #expects paper1 and paper2 to be vectors fro the abstracts of those papers
+<<<<<<< HEAD
     def predict(self,paper1, paper2):
         return 1 - spatial.distance.cosine(paper1, paper2)
+=======
+    def predict(self,vec1, vec2):
+        sim = 1-spatial.distance.cosine(vec1, vec2)
+        sim = max(min(1,sim),0)
+        return sim
+>>>>>>> d3363dd8c5acc2504de1c0c3fdc8bb87bc7b8997
 
         #The old, crappy way
         # ab1 = simple_preprocess(paper1['abstract'])
@@ -44,13 +51,9 @@ class clf_abstract:
         correlation=numpy.zeros(shape=(n,n))
         # correlation matrix is a symmetric matrix
         for i in range(n):
-            print(i)
+            #print(i)
             for j in range(i):
-                correlation[i][j]=spatial.distance.cosine(vecs[i],vecs[j])
-                #
-                if (correlation[i][j]>1):
-                    print(correlation[i][j])
-                #
+                correlation[i][j]=self.predict(vecs[i],vecs[j])
         correlation=correlation+correlation.T
         return correlation
 
