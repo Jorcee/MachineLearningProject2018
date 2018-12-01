@@ -1,67 +1,112 @@
-from gensim.models import KeyedVectors
-import numpy as np
+import numpy
 import re
 import random
+from graph import graph
 import matplotlib.pyplot as plt
-class clf_keywords:
-    
+class clf_coauthor:
+
+    def preprocess(self,name):
+        return re.sub("[^A-Za-z]","",name).lower()
+
     def __init__(self):
-        self.kv = KeyedVectors.load('wordvectors.kv')
-        self.wv = KeyedVectors.load('wordvector2.kv')
         self.bayes=False
         self.N1=0
         self.N2=0
         self.kinds=101
-        self.f1=np.zeros(self.kinds)
-        self.f2=np.zeros(self.kinds)
-        self.prob_bayes=np.zeros(self.kinds)
+        self.f1=numpy.zeros(self.kinds)
+        self.f2=numpy.zeros(self.kinds)
+        self.prob_bayes=numpy.zeros(self.kinds)
         self.max_iter=200
-    def train(self,data,label):
-        print('clf_keywords train start')
-        self.bayes_train(data,label)
-        print('clf_keywords train end')
 
-    #Average of the average similarity of each keyword to every keyword in the other paper
+    def train(self,data,label):
+        print('clf_coauthor train start')
+        self.bayes_train(data,label)
+        print('clf_coauthor train end')
+
     def predict(self,paper1,paper2):
-        keys1 = paper1['keywords']
-        keys2 = paper2['keywords']
-        sim_values = []
-        for word1 in keys1:
-            temp = []
-            for word2 in keys2:
-                try:
-                    a=self.kv.similarity(word1,word2)
-                    if not np.isnan(a):
-                        temp.append(a)
-                except Exception:
-                    try:
-                        a=self.wv.similarity(word1,word2)
-                        if not np.isnan(a):
-                            temp.append(a)
-                    except Exception:
-                        temp = temp
-            temp = np.array(temp)
-            temp = np.mean(temp)
-            sim_values.append(temp)
-        sim_values = np.array(sim_values)
-        print(np.mean(sim_values))
-        return np.mean(sim_values)
+        namelist1=[i['name'] for i in paper1['authors']]
+        namelist2=[i['name'] for i in paper2['authors']]
+        if len(set(namelist1)&set(namelist2))>1:
+            return 1
+        else:
+            return 0
 
     def matrix(self,data):
         n=len(data)
-        correlation=np.zeros(shape=(n,n))
-        # correlation matrix is a symmetric matrix
+        authors_of_papers=[]
+        authors_total={}
+        for paper in data:
+            authors_one_paper=[]
+            for author in paper['authors']:
+                name=self.preprocess(author['name'])
+                authors_one_paper.append(name)
+                if name in authors_total:
+                    authors_total[name]+=1
+                else:
+                    authors_total[name]=1
+            authors_of_papers.append(authors_one_paper)
+        # find who is the author to be classified
+        name_want=""
+        m=0
+        for name,times in authors_total.items():
+            if(times>m):
+                name_want=name
+                m=times
+
+        del authors_total[name_want]
+
+        # add serial number
+        index=0
+        for name in authors_total:
+            authors_total[name]=index+n
+            index+=1
+
+        #creat link matrix
+        #link_mat = numpy.zeros(shape=(n+len(authors_total),n+len(authors_total)))
+
+
+        N=[]
+        for i in range(n+len(authors_total)):
+            Ni=[]
+            N.append(Ni)
+
+
         for i in range(n):
-            for j in range(i):
-                #print(data[i],data[j])
-                correlation[i][j]=self.predict(data[i],data[j])
-        correlation=correlation+correlation.T
+            indexs=[i]
+            for author in authors_of_papers[i]:
+                if (author != name_want):
+                    indexs.append(authors_total[author])
+            
+            #print(indexs)
+            for j in indexs:
+                for k in indexs:
+                    if(j!=k):
+                        N[j].append(k)
+
+        # calculate the mini-distance matrix
+
+        graph1=graph(N)
+
+        
+        
+        dis=graph1.distance(list(range(n)),list(range(n)))
+        del graph1
+
+        correlation=numpy.zeros(shape=(n,n))
+        correlation[numpy.where(dis>0)]=1/numpy.sqrt(dis[numpy.where(dis>0)])
+        # correlation matrix is a symmetric matrix
+        if self.bayes:
+            for i in range(n):
+                for j in range(n):
+                    correlation[i,j]=self.out2prob(correlation[i,j])
+
         return correlation
+
 
 
     def bayes_train(self,data,label):
         try:
-            self.prob_bayes=np.load('clf_keywords_bayes.npy')
+            self.prob_bayes=numpy.load('clf_coauthor_bayes.npy')
             print('load success')
         except IOError:
 
@@ -73,17 +118,14 @@ class clf_keywords:
                 data_=data[name_]
                 label_=label[name_]
                 len_=len(data_)
+                if (len_>1800):
+                    continue
             
                 correlation = self.matrix(data_)
                 #the propability-desity function of the out put of clf when real-correlation is 1
                 # print(correlation)
                 # the start and end of indexs of each clusters
                 indexs=[len(i) for i in label_]
-
-                item=0
-                for i in indexs:
-                    item+=i
-                len_=item
 
                 dN1=0
                 for len_clus in indexs:
@@ -116,10 +158,12 @@ class clf_keywords:
                 print('learning step: {}',iter)
                 if ((max([abs(prob_bayes_new[i]-self.prob_bayes[i]) for i in range(self.kinds)]) < 0.001 ) or (iter==self.max_iter)):
                     self.prob_bayes = prob_bayes_new[:]
-                    np.save('clf_keywords_bayes.npy',self.prob_bayes)
+                    numpy.save('clf_coauthor_bayes.npy',self.prob_bayes)
                     break
                 self.prob_bayes = prob_bayes_new[:]
-                np.save('clf_keywords_bayes.npy',self.prob_bayes)
+                numpy.save('clf_coauthor_bayes.npy',self.prob_bayes)
+            
+
 
         
     def smoothing(self,prob):
@@ -146,15 +190,8 @@ class clf_keywords:
         plt.show()
     
     def print(self):
-        print('N1',self.N1)
-        print('N2',self.N2)
-        print('prob',self.prob_bayes)
-        print('f1',self.f1)
-        print('f2',self.f2)
-        if self.N1-sum(self.f1) !=0:
-            print('asdfuawgefkagwekfhm')
-        if self.N2-sum(self.f2) !=0:
-            print('asdfuawgefkagwekfhm')
+        print('prob_bayes',self.prob_bayes)
 
     def out2prob(self,output):
         return self.prob_bayes[int(output*(self.kinds-1))]
+

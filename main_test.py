@@ -11,14 +11,16 @@ from clf_abstract import clf_abstract
 from clf_year import clf_year
 from clf_coauthor import clf_coauthor
 import re 
+def preprocess(name):
+    return re.sub("[^A-Za-z]","",name).lower()
 
 #MODE = 'test'
 MODE = 'run'
 if MODE == 'run':
-    with open('pubs_train.json', 'r') as f:
+    with open('pubs_validate.json', 'r') as f:
         data = json.load(f)
 
-    with open('assignment_train.json') as f:
+    with open('assignment_validate.json') as f:
         label = json.load(f)
 
     for data_item in data.values():
@@ -52,36 +54,66 @@ else:
     label={'li_ma':label_lima}
 
 
+
+# index=0
+# has_lima=0
+# for i in range(len(label_lima)):
+#     for j in range(len(label_lima[i])):
+#         authors=data_lima[index]['authors']
+#         k=0
+#         for author in authors:
+#             filter(str.isalpha, (author['name']))
+#             if preprocess(author['name'])=='lima':
+#                 k=1
+#         if k==1:
+#             has_lima+=1
+#         #else:
+#             #print(authors)
+#         index+=1
+
 clf1=clf_venue()
 clf1.train(data,label)
-clf1_new= bayes_tran(clf1,data,label)
+# print(has_lima,index)
 
-clf2=clf_coauthor()
+clf2=clf_year()
 clf2.train(data,label)
-clf2_new= bayes_tran(clf2,data,label)
+# clf2_new= bayes_tran(clf2,data,label)
 
-# clf3=clf_keywords()
-# clf3.train(data,label)
-# clf3_new= bayes_tran(clf3,data,label)
-
-# similarity_total=similarity(clf1_new,clf2_new,clf3_new)
-
-clf3=clf_year()
+clf3=clf_org()
 clf3.train(data,label)
-clf3_new= bayes_tran(clf3,data,label)
+
+clf4=clf_coauthor()
+clf4.train(data,label)
 
 
-clf4=clf_abstract()
-clf4_new= bayes_tran(clf4, data,label)
+# clf5=clf_venue()
+# clf5.train(data,label)
+clf1.bayes=True
+clf2.bayes=True
+clf3.bayes=True
+clf4.bayes=True
 
-similarity_total=similarity(clf1_new,clf2_new,clf3_new,clf4_new)
+clf4.print()
 
+#clf3.plot()
+# clf4.bayes=True
+# clf5.bayes=True
+similarity_total=similarity(clf1,clf2,clf3,clf4)
+
+
+n=0
 for name in label:
     data[name],label[name]
+    print(len(data[name]))
+    # if len(data[name])>1243:
+    #     continue
     label_=HierarchicalClustering(similarity_total,data[name])
     a = score(label_,label[name],'precise')
     b=score(label_,label[name],'recall')
     c=score(label_,label[name],'F1')
     print(a,b,c)
+    n+=1
+    if(n>5):
+        break
 
-#clf_new.print()
+#clf3_new.plot()

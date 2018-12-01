@@ -15,8 +15,8 @@ class bayes_tran:
         iter=0
         names=list(label)
         random.shuffle(names)
-        print(list(label))
-        print(names)
+        #print(list(label))
+        #print(names)
         for name_ in names:
             data_=data[name_]
             label_=label[name_]
@@ -33,15 +33,31 @@ class bayes_tran:
             # the start and end of indexs of each clusters
             indexs=[len(i) for i in label_]
 
+            item=len_
+            for i in indexs:
+                item-=i
+            if(item!=0):
+                print('len_error')
+                print(indexs)
+                print(label_)
+
             dN1=0
             for len_clus in indexs:
                 dN1+=len_clus*(len_clus-1)/2 
             self.N1 += dN1
             self.N2 += (len_*(len_-1)/2 - dN1)
 
+            k1_test=0
+            k2_test=0
+
             for i in range(1,len(indexs)):
                 indexs[i]+=indexs[i-1]
             indexs=[0]+indexs
+
+            if(indexs[-1]!=len_):
+                print('index_error')
+
+
             # print(indexs)
             for i in range(len(indexs)-1):
                 # for k in range(indexs[i],indexs[i+1]):
@@ -54,8 +70,15 @@ class bayes_tran:
                 for k in range(indexs[i],indexs[i+1]):
                     for j in range(k+1,indexs[i+1]):
                         self.f1[int(correlation[k][j]*(self.kinds-1))] += 1
+                        k1_test+=1
                     for j in range(indexs[i+1],len_):
                         self.f2[int(correlation[k][j]*(self.kinds-1))] += 1
+                        k2_test+=1
+
+            if(k1_test!=dN1):
+                print('k1_error')
+            if(k2_test!=(len_*(len_-1)/2 - dN1)):
+                print('k2_error',(len_*(len_-1)/2 - dN1-k2_test))
             prob_bayes_new=[]
             for i in range (self.kinds):
                 if(self.f1[i]+self.f2[i]<20):
@@ -101,7 +124,7 @@ class bayes_tran:
 
     def plot(self):
         x=[k/(self.kinds-1) for k in range(self.kinds)]
-        plt.plot(x,self.f1)
+        plt.plot(x,self.prob_bayes)
         plt.show()
     
     def print(self):
@@ -110,7 +133,10 @@ class bayes_tran:
         print('prob',self.prob_bayes)
         print('f1',self.f1)
         print('f2',self.f2)
-
+        if self.N1-sum(self.f1) !=0:
+            print('asdfuawgefkagwekfhm')
+        if self.N2-sum(self.f2) !=0:
+            print('asdfuawgefkagwekfhm')
 
         
 

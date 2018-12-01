@@ -69,7 +69,7 @@ def HierarchicalClustering(similarity,data):
         if (len(list_new)>1):
             sim=node_simularity(correlation,list_new[-1],list_new[-2])
             if (sim >= maxmum):
-                if( sim > 0.5 ):
+                if( sim > 0.7 ):
                     index1=min(list_new[-1].index,list_new[-2].index)
                     correlation[index1,:]=(list_new[-1].num*correlation[list_new[-1].index,:]+list_new[-2].num*correlation[list_new[-2].index,:])/(list_new[-1].num+list_new[-2].num)
                     correlation[:,index1]=(list_new[-1].num*correlation[:,list_new[-1].index]+list_new[-2].num*correlation[:,list_new[-2].index])/(list_new[-1].num+list_new[-2].num)
