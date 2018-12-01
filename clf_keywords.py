@@ -39,8 +39,7 @@ class clf_keywords:
                         if not np.isnan(a):
                             temp.append(a)
                     except Exception:
-                        pass
-
+                        temp = temp
             temp = np.array(temp)
             temp = np.mean(temp)
             sim_values.append(temp)

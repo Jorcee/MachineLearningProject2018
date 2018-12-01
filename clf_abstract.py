@@ -1,6 +1,7 @@
 import random
 from gensim.utils import simple_preprocess
 from gensim.models.keyedvectors import Doc2VecKeyedVectors
+from gensim.models import KeyedVectors
 from gensim.models import Doc2Vec
 from scipy import spatial
 import numpy
@@ -9,6 +10,7 @@ class clf_abstract:
     def __init__(self):
         self.doc_vector = Doc2VecKeyedVectors.load('doc2vec.kv')
         self.doc_model = Doc2Vec.load('doc2vec.model')
+        self.word_vector = KeyedVectors.load('wordvectors.kv')
         self.bayes=False
         self.N1=0
         self.N2=0
@@ -25,7 +27,7 @@ class clf_abstract:
 
     #expects paper1 and paper2 to be vectors fro the abstracts of those papers
     def predict(self,vec1, vec2):
-        sim = 1-spatial.distance.cosine(vec1, vec2)
+        sim = 1 - spatial.distance.cosine(vec1, vec2)
         sim = max(min(1,sim),0)
         return sim
 
