@@ -115,6 +115,8 @@ for name in data:
     if(n>4):
         break
 
+with open('pubs_test.json', 'r') as f:
+        data = json.load(f)
 
 n=0
 labels={}
