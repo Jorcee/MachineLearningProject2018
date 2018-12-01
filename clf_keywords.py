@@ -30,12 +30,12 @@ class clf_keywords:
             temp = []
             for word2 in keys2:
                 try:
-                    a=self.kv.similarity(word1,word2)
+                    a=self.kv.n_similarity(word1,word2)
                     if not np.isnan(a):
                         temp.append(a)
                 except Exception:
                     try:
-                        a=self.wv.similarity(word1,word2)
+                        a=self.wv.n_similarity(word1,word2)
                         if not np.isnan(a):
                             temp.append(a)
                     except Exception:
