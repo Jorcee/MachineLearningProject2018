@@ -24,6 +24,7 @@ class clf_abstract:
         print('clf_abstract train start')
         self.bayes_train(data,label)
         print('clf_abstract train end')
+
     #expects paper1 and paper2 to be vectors fro the abstracts of those papers
     def predict(self,vec1, vec2):
         sim = 1 - spatial.distance.cosine(vec1, vec2)
