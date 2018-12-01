@@ -6,3 +6,4 @@
 *.bdc-downloading
 test.py
 tester.py
+*.txt
