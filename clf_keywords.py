@@ -4,7 +4,7 @@ class clf_keywords:
     
     def __init__(self):
         self.kv = KeyedVectors.load('wordvectors.kv')
-
+        self.wv = KeyedVectors.load('wordvector2.kv')
     def train(self,data,label):
         print('clf_keywords train start')
         pass
@@ -21,7 +21,11 @@ class clf_keywords:
                 try:
                     temp.append(self.kv.similarity(word1,word2))
                 except Exception:
-                    temp.append(0)
+                    try:
+                        temp.append(self.wv.similarity(word1,word2))
+                    except Exception:
+                        pass
+
             temp = np.array(temp)
             temp = np.mean(temp)
             sim_values.append(temp)
