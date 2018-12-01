@@ -25,6 +25,10 @@ class clf_keywords:
     def predict(self,paper1,paper2):
         keys1 = paper1['keywords']
         keys2 = paper2['keywords']
+        if not len(keys1) >= 1:
+            return 0
+        if not len(keys2) >= 1:
+            return 0
         sim_values = []
         for word1 in keys1:
             temp = []
@@ -44,7 +48,6 @@ class clf_keywords:
             temp = np.mean(temp)
             sim_values.append(temp)
         sim_values = np.array(sim_values)
-        print(np.mean(sim_values))
         return np.mean(sim_values)
 
     def matrix(self,data):
