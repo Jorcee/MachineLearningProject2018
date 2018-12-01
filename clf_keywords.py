@@ -54,10 +54,16 @@ class clf_keywords:
         n=len(data)
         correlation=np.zeros(shape=(n,n))
         # correlation matrix is a symmetric matrix
-        for i in range(n):
-            for j in range(i):
-                #print(data[i],data[j])
-                correlation[i][j]=self.predict(data[i],data[j])
+
+        if self.bayes:
+            for i in range(n):
+                for j in range(i):
+                    correlation[i][j]=self.out2prob(self.predict(data[i],data[j]))
+        else:
+            for i in range(n):
+                for j in range(i):
+                    correlation[i][j]=self.predict(data[i],data[j])
+
         correlation=correlation+correlation.T
         return correlation
 

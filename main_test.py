@@ -83,6 +83,7 @@ clf3.train(data,label)
 clf4=clf_coauthor()
 clf4.train(data,label)
 
+#now means title
 clf5=clf_abstract()
 clf5.train(data,label)
 
@@ -94,14 +95,14 @@ clf2.bayes=True
 clf3.bayes=True
 clf4.bayes=True
 clf5.bayes=True
+clf6.bayes=True
 #clf5.print()
-clf6.print()
+#clf6.print()
 #similarity_total=similarity(clf1,clf2,clf3,clf4)
-similarity_total=similarity(clf6)
+similarity_total=similarity(clf1,clf2,clf3,clf4,clf5,clf6)
 
 n=0
-for name in label:
-    data[name],label[name]
+for name in data:
     print(len(data[name]))
     # if len(data[name])>1243:
     #     continue
@@ -111,7 +112,19 @@ for name in label:
     c=score(label_,label[name],'F1')
     print(a,b,c)
     n+=1
-    if(n>5):
+    if(n>4):
         break
+
+
+n=0
+labels={}
+for name in data:
+    print(len(data[name]))
+    label_=HierarchicalClustering(similarity_total,data[name])
+    labels['name']=label_
+
+fi=open('assignment_test.json',w)
+json.dumps(labels)
+
 
 #clf3_new.plot()
