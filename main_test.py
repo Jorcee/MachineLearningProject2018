@@ -73,11 +73,9 @@ else:
 
 clf1=clf_venue()
 clf1.train(data,label)
-# print(has_lima,index)
 
 clf2=clf_year()
 clf2.train(data,label)
-# clf2_new= bayes_tran(clf2,data,label)
 
 clf3=clf_org()
 clf3.train(data,label)
@@ -85,20 +83,18 @@ clf3.train(data,label)
 clf4=clf_coauthor()
 clf4.train(data,label)
 
+clf5=clf_abstract()
+clf5.train(data,label)
 
-# clf5=clf_venue()
-# clf5.train(data,label)
 clf1.bayes=True
 clf2.bayes=True
 clf3.bayes=True
 clf4.bayes=True
+clf5.bayes=True
+clf5.print()
 
-clf4.print()
-
-#clf3.plot()
-# clf4.bayes=True
-# clf5.bayes=True
-similarity_total=similarity(clf1,clf2,clf3,clf4)
+#similarity_total=similarity(clf1,clf2,clf3,clf4)
+similarity_total=similarity(clf5)
 
 
 n=0

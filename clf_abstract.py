@@ -22,11 +22,10 @@ class clf_abstract:
         print('clf_abstract train start')
         self.bayes_train(data,label)
         print('clf_abstract train end')
+
     #expects paper1 and paper2 to be vectors fro the abstracts of those papers
     def predict(self,vec1, vec2):
         sim = 1-spatial.distance.cosine(vec1, vec2)
-        if(sim<0 or sim>1):
-            print(sim)
         sim = max(min(1,sim),0)
         return sim
 
@@ -43,7 +42,7 @@ class clf_abstract:
     #Returns the vector of a paper's abstract
     def get_vector(self, paper):
         try:
-            doc = simple_preprocess(paper['abstract'])
+            doc = simple_preprocess(paper['title'])
             return self.doc_model.infer_vector(doc)
         except Exception:
             return [0]
