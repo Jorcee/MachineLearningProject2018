@@ -86,16 +86,18 @@ clf4.train(data,label)
 clf5=clf_abstract()
 clf5.train(data,label)
 
+clf6=clf_keywords()
+clf6.train(data,label)
+
 clf1.bayes=True
 clf2.bayes=True
 clf3.bayes=True
 clf4.bayes=True
 clf5.bayes=True
-clf5.print()
-
+#clf5.print()
+clf6.print()
 #similarity_total=similarity(clf1,clf2,clf3,clf4)
-similarity_total=similarity(clf5)
-
+similarity_total=similarity(clf6)
 
 n=0
 for name in label:
