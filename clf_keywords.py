@@ -24,8 +24,7 @@ class clf_keywords:
                     try:
                         temp.append(self.wv.similarity(word1,word2))
                     except Exception:
-                        pass
-
+                        temp = temp
             temp = np.array(temp)
             temp = np.mean(temp)
             sim_values.append(temp)

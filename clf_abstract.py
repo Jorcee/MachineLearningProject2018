@@ -1,6 +1,7 @@
 import random
 from gensim.utils import simple_preprocess
 from gensim.models.keyedvectors import Doc2VecKeyedVectors
+from gensim.models import KeyedVectors
 from gensim.models import Doc2Vec
 from scipy import spatial
 import numpy
@@ -8,21 +9,17 @@ class clf_abstract:
     def __init__(self):
         self.doc_vector = Doc2VecKeyedVectors.load('doc2vec.kv')
         self.doc_model = Doc2Vec.load('doc2vec.model')
+        self.word_vector = KeyedVectors.load('wordvectors.kv')
 
     def train(self,data,label):
         print('clf_abstract train start')
         pass
         print('clf_abstract train end')
     #expects paper1 and paper2 to be vectors fro the abstracts of those papers
-<<<<<<< HEAD
-    def predict(self,paper1, paper2):
-        return 1 - spatial.distance.cosine(paper1, paper2)
-=======
     def predict(self,vec1, vec2):
-        sim = 1-spatial.distance.cosine(vec1, vec2)
+        sim = 1 - spatial.distance.cosine(vec1, vec2)
         sim = max(min(1,sim),0)
         return sim
->>>>>>> d3363dd8c5acc2504de1c0c3fdc8bb87bc7b8997
 
         #The old, crappy way
         # ab1 = simple_preprocess(paper1['abstract'])
@@ -36,7 +33,7 @@ class clf_abstract:
 
     #Returns the vector of a paper's abstract
     def get_vector(self, paper):
-        doc = simple_preprocess(paper['abstract'])
+        doc = simple_preprocess(paper['title'])
         try:
             return self.doc_model.infer_vector(doc)
         except Exception:
