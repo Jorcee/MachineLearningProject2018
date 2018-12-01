@@ -44,7 +44,6 @@ class clf_keywords:
             temp = np.mean(temp)
             sim_values.append(temp)
         sim_values = np.array(sim_values)
-        print(np.mean(sim_values))
         return np.mean(sim_values)
 
     def matrix(self,data):
