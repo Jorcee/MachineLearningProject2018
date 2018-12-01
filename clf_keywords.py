@@ -48,6 +48,9 @@ class clf_keywords:
             temp = np.mean(temp)
             sim_values.append(temp)
         sim_values = np.array(sim_values)
+        toReturn = np.mean(sim_values)
+        if np.isnan(toReturn):
+            return 0
         return np.mean(sim_values)
 
     def matrix(self,data):
