@@ -4,7 +4,7 @@ setrecursionlimit(1000000)
 class Node:
     def __init__(self,item):
         self.num = 1
-        self.similarity=0
+        self.similarity=1
         #item is index of samples for leafnodes
         # similarity of two children for other nodes
         self.index = item

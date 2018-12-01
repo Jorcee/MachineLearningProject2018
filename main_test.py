@@ -82,19 +82,23 @@ clf2.train(data,label)
 clf3=clf_org()
 clf3.train(data,label)
 
-# clf4=clf_coauthor()
-# clf4.train(data,label)
+clf4=clf_coauthor()
+clf4.train(data,label)
+
 
 # clf5=clf_venue()
 # clf5.train(data,label)
 clf1.bayes=True
 clf2.bayes=True
 clf3.bayes=True
+clf4.bayes=True
+
+clf4.print()
 
 #clf3.plot()
 # clf4.bayes=True
 # clf5.bayes=True
-similarity_total=similarity(clf1,clf2,clf3)
+similarity_total=similarity(clf1,clf2,clf3,clf4)
 
 
 n=0
