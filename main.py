@@ -9,6 +9,8 @@ from clf_org import clf_org
 from clf_keywords import clf_keywords
 from clf_abstract import clf_abstract
 from clf_year import clf_year
+from clf_coauthor import clf_coauthor
+import re 
 
 #MODE = 'test'
 MODE = 'run'
@@ -54,7 +56,7 @@ clf1=clf_venue()
 clf1.train(data,label)
 clf1_new= bayes_tran(clf1,data,label)
 
-clf2=clf_org()
+clf2=clf_coauthor()
 clf2.train(data,label)
 clf2_new= bayes_tran(clf2,data,label)
 
@@ -72,13 +74,14 @@ clf3_new= bayes_tran(clf3,data,label)
 clf4=clf_abstract()
 clf4_new= bayes_tran(clf4, data,label)
 
-similarity_total=similarity(clf3_new)
-
-#similarity_total=similarity(clf1_new,clf2_new,clf3_new,clf4_new)
+similarity_total=similarity(clf1_new,clf2_new,clf3_new,clf4_new)
 
 for name in label:
     data[name],label[name]
-    a = score(HierarchicalClustering(similarity_total,data[name]),label[name],'F1')
-    print(a)
+    label_=HierarchicalClustering(similarity_total,data[name])
+    a = score(label_,label[name],'precise')
+    b=score(label_,label[name],'recall')
+    c=score(label_,label[name],'F1')
+    print(a,b,c)
 
 #clf_new.print()
