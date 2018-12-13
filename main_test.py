@@ -125,7 +125,7 @@ for name in data:
     label_=HierarchicalClustering(similarity_total,data[name])
     labels['name']=label_
 
-fi=open('assignment_test.json',w)
+fi=open('assignment_test.json','w')
 json.dumps(labels)
 
 
