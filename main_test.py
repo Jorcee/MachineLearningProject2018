@@ -71,41 +71,47 @@ else:
 #             #print(authors)
 #         index+=1
 
-clf1=clf_venue()
-clf1.train(data,label)
+# clf1=clf_venue()
+# clf1.train(data,label)
 
-clf2=clf_year()
-clf2.train(data,label)
+# clf2=clf_year()
+# clf2.train(data,label)
 
-clf3=clf_org()
-clf3.train(data,label)
+# clf3=clf_org()
+# clf3.train(data,label)
 
-clf4=clf_coauthor()
-clf4.train(data,label)
+# clf4=clf_coauthor()
+# clf4.train(data,label)
 
-#now means title
-clf5=clf_abstract()
-clf5.train(data,label)
+# #now means title
+# clf5=clf_abstract()
+# clf5.train(data,label)
 
-clf6=clf_keywords()
-clf6.train(data,label)
+# clf6=clf_keywords()
+# clf6.train(data,label)
 
-clf1.bayes=True
-clf2.bayes=True
-clf3.bayes=True
-clf4.bayes=True
-clf5.bayes=True
-clf6.bayes=True
-#clf5.print()
-#clf6.print()
-#similarity_total=similarity(clf1,clf2,clf3,clf4)
-similarity_total=similarity(clf1,clf2,clf3,clf4,clf5,clf6)
+# clf1.bayes=True
+# clf2.bayes=True
+# clf3.bayes=True
+# clf4.bayes=True
+# clf5.bayes=True
+# clf6.bayes=True
+
+
+# #clf5.print()
+# #clf6.print()
+# #similarity_total=similarity(clf1,clf2,clf3,clf4)
+# similarity_total=similarity(clf1,clf2,clf3,clf4,clf5,clf6)
+
+clf7=clf_org()
+clf7.bayes=True
+similarity_total=similarity(clf7)
 
 n=0
 for name in data:
     print(len(data[name]))
-    # if len(data[name])>1243:
-    #     continue
+    if len(data[name])>1243:
+        continue
     label_=HierarchicalClustering(similarity_total,data[name])
     a = score(label_,label[name],'precise')
     b=score(label_,label[name],'recall')
